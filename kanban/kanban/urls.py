@@ -19,11 +19,12 @@ from rest_framework import routers
 from api import views
 
 router = routers.DefaultRouter()
-router.register(r'abilities', views.AbilitiesViewSet)
+router.register(r'api/tasks', views.TaskViewSet)
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls',
-                               namespace='rest_framework'))
+                               namespace='rest_framework')),
 ]

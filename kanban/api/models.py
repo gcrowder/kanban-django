@@ -17,3 +17,6 @@ class Task(models.Model):
     description = models.TextField()
     status = models.CharField(max_length=20, choices=status_choices)
     priority = models.CharField(max_length=15, choices=priority_choices)
+
+    def __str__(self):
+        return "{} : {} : {}".format(self.title, self.status, self.priority)
