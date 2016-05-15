@@ -41,5 +41,9 @@ var TasksList = React.createClass({
     }
 })
 
+var TasksAppReact.createClass({
+    
+})
+
 ReactDOM.render(<TasksList url='/api/tasks' pollInterval={1000} />,
     document.getElementById('container'))
