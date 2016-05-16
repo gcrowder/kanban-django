@@ -20,8 +20,8 @@ var TasksList = React.createClass({
 
     componentDidMount: function() {
         this.loadTasksFromServer();
-        setInterval(this.loadTasksFromServer,
-                    this.props.pollInterval)
+        // setInterval(this.loadTasksFromServer,
+        //             this.props.pollInterval)
     },
     render: function() {
         if (this.state.data) {
@@ -43,37 +43,59 @@ var TasksList = React.createClass({
 
 var TasksApp = React.createClass({
     getInitialState: function() {
-        return {data: []};
+        return {title: '', description: '', status: '', priority: ''};
     },
-    onChange: function(e) {
-
-      this.setState({data: {title: e.target.title,
-              description: e.target.description,
-              status: e.target.status,
-              priority: e.target.priority}});
-    }.bind(this),
+    handleTitleChange: function(e){
+        this.setState({title: e.target.value});
+    },
+    handleDescriptionChange: function (e){
+        this.setState({description: e.target.value})
+    },
+    handleStatusChange: function (e){
+        this.setState({status: e.target.value})
+    },
+    handlePriorityChange: function (e){
+        this.setState({priority: e.target.value})
+    },
     handleSubmit: function(e) {
         e.preventDefault();
         $.ajax({
             url: this.props.url,
             datatype: 'json',
             method: 'POST',
-            data: this.state.data,
+            data: e.state,
         })
     },
     render: function() {
       return (
         <div>
           <h3>Kanban</h3>
-          <TasksList />
+          <TasksList url='/api/tasks/'/>
           <form onSubmit={this.handleSubmit}>
-            <input onChange={this.onChange} value={this.state.title} />
-            <button>{'Add #' + (this.state.data.length + 1)}</button>
+            <p><input onChange={this.handleTitleChange} value={this.state.title}
+            type="text" placeholder="Title"/></p>
+            <p><textarea onChange={this.handleDescriptionChange} value={this.state.description}
+             placeholder="Description"/></p>
+            <p><select value={this.state.status} onChange={this.handleStatusChange}
+            placeholder="Status">
+                <option value="Back Burner">Back Burner</option>
+                <option value="On Deck">On Deck</option>
+                <option value="In Process">In Process</option>
+                <option value="Complete">Complete</option></select></p>
+            <p><select value={this.state.priority} onChange={this.handlePriorityChange}
+            placeholder="Priority">
+                <option value="Glacial">Glacial</option>
+                <option value="Sloth">Sloth</option>
+                <option value="Snail">Snail</option>
+                <option value="Rabbit">Rabbit</option>
+                <option value="The Flash">The Flash</option></select></p>
+            <button>{'Add Task'}</button>
           </form>
         </div>
       );
     }
 })
 
-ReactDOM.render(<TasksApp url='/api/tasks' pollInterval={1000} />,
+ReactDOM.render(<TasksApp url='/api/tasks/' />,
     document.getElementById('container'))
+// pollInterval={5000}
