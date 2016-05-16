@@ -1,10 +1,18 @@
 // require("bootstrap.min.css");
 var React = require('react')
 var ReactDOM = require('react-dom')
+var Cookies = require('js-cookie')
+
+
 
 var TasksList = React.createClass({
     loadTasksFromServer: function(){
+        // var csrftoken = Cookies.get('csrftoken')
+        $.ajaxSetup({
+       headers: { "X-CSRFToken": 'NAubuXi9bXzIgC9HttEsHQ36IHGVnXtW' }
+   });
         $.ajax({
+
             url: this.props.url,
             datatype: 'json',
             cache: false,
@@ -59,30 +67,41 @@ var TasksApp = React.createClass({
     },
     handleSubmit: function(e) {
         e.preventDefault();
+        console.log(this.state)
+        console.log(this.props)
+        // var csrftoken = Cookies.get('csrftoken')
+        $.ajaxSetup({
+       headers: { "X-CSRFToken": 'NAubuXi9bXzIgC9HttEsHQ36IHGVnXtW' }
+   });
         $.ajax({
             url: this.props.url,
             datatype: 'json',
             method: 'POST',
-            data: e.state,
-        })
-    },
+            data: {status: this.state.status,
+                    description: this.state.description,
+                    title: this.state.title,
+                    priority: this.state.priority},
+            
+            success: ReactDOM.render(<TasksApp url='/api/tasks/'  />,
+                document.getElementById('container'))
+    })},
     render: function() {
       return (
         <div>
           <h3>Kanban</h3>
-          <TasksList url='/api/tasks/'/>
+          <TasksList url='/api/tasks/' />
           <form onSubmit={this.handleSubmit}>
             <p><input onChange={this.handleTitleChange} value={this.state.title}
             type="text" placeholder="Title"/></p>
             <p><textarea onChange={this.handleDescriptionChange} value={this.state.description}
              placeholder="Description"/></p>
-            <p><select value={this.state.status} onChange={this.handleStatusChange}
+            <p><select value='Back Burner' onChange={this.handleStatusChange}
             placeholder="Status">
                 <option value="Back Burner">Back Burner</option>
                 <option value="On Deck">On Deck</option>
                 <option value="In Process">In Process</option>
                 <option value="Complete">Complete</option></select></p>
-            <p><select value={this.state.priority} onChange={this.handlePriorityChange}
+            <p><select value="Glacial" onChange={this.handlePriorityChange}
             placeholder="Priority">
                 <option value="Glacial">Glacial</option>
                 <option value="Sloth">Sloth</option>
@@ -96,6 +115,6 @@ var TasksApp = React.createClass({
     }
 })
 
-ReactDOM.render(<TasksApp url='/api/tasks/' />,
+ReactDOM.render(<TasksApp url='/api/tasks/'  />,
     document.getElementById('container'))
 // pollInterval={5000}
