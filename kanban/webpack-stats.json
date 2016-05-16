@@ -1,1 +1,1 @@
-{"status":"error","error":"ModuleNotFoundError","message":"Module not found: Error: Cannot resolve module 'bootstrap.min.css' in /Users/gregiskhan/Documents/tiy/homework_week_7/kanban-django/kanban/assets/js"}
+{"status":"done","chunks":{"main":[{"name":"main-2c0c603ef61feab4f50c.js","path":"/Users/gregiskhan/Documents/tiy/homework_week_7/kanban-django/kanban/assets/bundles/main-2c0c603ef61feab4f50c.js"}]}}
