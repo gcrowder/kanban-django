@@ -1,4 +1,7 @@
+dj-database-url==0.4.1
 Django==1.9.6
 django-webpack-loader==0.3.0
 djangorestframework==3.3.3
+gunicorn==19.5.0
 psycopg2==2.6.1
+whitenoise==3.1

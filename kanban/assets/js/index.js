@@ -35,7 +35,7 @@ var TasksList = React.createClass({
         if (this.state.data) {
             console.log('DATA!')
             var taskNodes = this.state.data.map(function(task){
-                return <li class="list-group-item"> {task.title}: {task.description} </li>
+                return <li class="list-group-item">{task.status} > {task.priority} > {task.title}: {task.description} </li>
             })
         }
         return (
@@ -81,7 +81,7 @@ var TasksApp = React.createClass({
                     description: this.state.description,
                     title: this.state.title,
                     priority: this.state.priority},
-            
+
             success: ReactDOM.render(<TasksApp url='/api/tasks/'  />,
                 document.getElementById('container'))
     })},
